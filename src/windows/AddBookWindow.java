@@ -2,8 +2,6 @@ package windows;
 
 import manager.BookManager;
 import manager.BookTypeManager;
-import manager.ReaderTypeManager;
-import manager.UserManager;
 
 import javax.swing.*;
 import java.awt.*;

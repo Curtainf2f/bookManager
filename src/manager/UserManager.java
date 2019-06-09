@@ -3,7 +3,6 @@ package manager;
 import customException.CoustemExecption;
 import dataProcess.DataProcess;
 import database.Database;
-import manager.ReaderManager;
 
 import java.sql.ResultSet;
 
@@ -70,6 +69,8 @@ public class UserManager {
         rs.last();
         if(rs.getRow() == 0) throw new CoustemExecption("该用户名不存在");
         ReaderManager.delData((Integer) getData(userName, 3));
+        rs = getData(userName);
+        rs.last();
         rs.deleteRow();
     }
     public static String getPassword(String userName)throws Exception{
@@ -77,14 +78,6 @@ public class UserManager {
     }
     public static Integer getReaderId(String userName) throws Exception{
         return (Integer)getData(userName, 3);
-    }
-    public static void setPassword(String userName, String password) throws Exception{
-        if(checkPassword(password) == null)
-            throw new CoustemExecption(checkPassword(password));
-        setData(userName, 2, password);
-    }
-    public static void setReaderId(String userName, Integer readerId) throws Exception{
-        setData(userName, 3, readerId);
     }
     public static void delReaderId(Integer readerId) throws Exception{
         ResultSet rs = getData(readerId);

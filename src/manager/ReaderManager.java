@@ -3,8 +3,6 @@ package manager;
 import customException.CoustemExecption;
 import dataProcess.DataProcess;
 import database.Database;
-
-import java.sql.Date;
 import java.sql.ResultSet;
 
 public class ReaderManager {
@@ -59,10 +57,9 @@ public class ReaderManager {
         if (!BorrowManager.isAllReturn(readerId)) throw new CoustemExecption("该读者还有书未还，不可修改");
         ResultSet rs = getData(readerId);
         rs.last();
-        if(rs.getRow() == 0) throw new CoustemExecption("该读者不存在");
+        if(rs.getRow() == 0) return;
         UserManager.delReaderId(readerId);
         rs.deleteRow();
-        BorrowManager.delReaderData(readerId);
         addFreeReaderId(readerId);
     }
     public static Integer getTypeData(Integer readerTypeId) throws Exception{
@@ -70,25 +67,7 @@ public class ReaderManager {
         rs.last();
         return rs.getRow();
     }
-    public static Integer getReaderTypeId(Integer readerId) throws Exception{
-        return (Integer) getData(readerId, 2);
-    }
     public static String getReaderName(Integer readerId) throws Exception{
         return (String) getData(readerId, 3);
-    }
-    public static Integer getReaderAge(Integer readerId) throws Exception{
-        return (Integer) getData(readerId, 4);
-    }
-    public static String getReaderSex(Integer readerId) throws Exception{
-        return (String) getData(readerId, 5);
-    }
-    public static String getReaderPhone(Integer readerId) throws Exception{
-        return (String) getData(readerId, 6);
-    }
-    public static String getReaderDept(Integer readerId) throws Exception{
-        return (String) getData(readerId, 7);
-    }
-    public static Date getReaderRegDate(Integer readerId) throws Exception{
-        return (Date) getData(readerId, 8);
     }
 }

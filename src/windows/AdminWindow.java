@@ -144,7 +144,7 @@ public class AdminWindow extends JFrame {
                             int row = usersTable.getSelectedRow()+1;
                             users.absolute(row);
                             readerInfo(users.getInt(3));
-                            bookBorrow = BorrowManager.getNotReturnDataUserReaderId(users.getInt(3));
+                            bookBorrow = BorrowManager.getDataUseReaderId(users.getInt(3));
                             bookBorrowTableReload();
                         }else if(e.getModifiersEx() == InputEvent.BUTTON3_DOWN_MASK){
                             usersTableRightClick(e.getComponent(),e.getX(), e.getY(), usersTable.getSelectedRow() + 1, usersTable.getSelectedColumn() + 1);
@@ -339,8 +339,8 @@ public class AdminWindow extends JFrame {
             bookBorrow.last();
             int n = bookBorrow.getRow();
             for(int i = 0; i < n; i ++){
-                tmp[i][0] += "(" + ReaderManager.getReaderName((Integer) tmp[i][0]) + ")";
-                tmp[i][1] += "(" + BookManager.getData((Integer)tmp[i][0], 3) + ")";
+                tmp[i][0] += ("(" + ReaderManager.getReaderName(Integer.valueOf(tmp[i][0].toString())) + ")");
+                tmp[i][1] += ("(" + BookManager.getData(Integer.valueOf(tmp[i][1].toString()), 3) + ")");
             }
             bookBorrowTable = new JTable(tmp, new String[]{"读者编号","书本编号","借阅日期","归还日期"}){
                 public boolean isCellEditable(int row, int column) {
@@ -557,8 +557,11 @@ public class AdminWindow extends JFrame {
         del.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try{
-                    Database.delData(users, selectRow);
+                    users.absolute(selectRow);
+                    UserManager.delData(users.getString(1));
                     users = UserManager.getData();
+                    reader = ReaderManager.getData();
+                    readerTableReload();
                     usersTableReload();
                 }catch (Exception ec){
                     JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
@@ -765,9 +768,10 @@ public class AdminWindow extends JFrame {
                 try{
                     book.absolute(selectRow);
                     BookManager.delData(book.getInt(1));
-                    book = BookTypeManager.getData();
+                    book = BookManager.getData();
                     bookTableReload();
                 }catch (Exception ec){
+                    ec.printStackTrace();
                     JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
                 }
             }
@@ -783,8 +787,10 @@ public class AdminWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try{
                     bookBorrow.absolute(selectRow);
-                    BorrowManager.delData(book.getInt(1), book.getInt(2));
+                    BorrowManager.delData(bookBorrow.getInt(1), bookBorrow.getInt(2));
+                    bookBorrow = BorrowManager.getData();
                     bookTableReload();
+                    bookBorrowTableReload();
                 }catch (Exception ec){
                     JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
                 }

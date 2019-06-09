@@ -3,7 +3,6 @@ package manager;
 import customException.CoustemExecption;
 import dataProcess.DataProcess;
 import database.Database;
-import manager.ReaderManager;
 
 import java.sql.ResultSet;
 

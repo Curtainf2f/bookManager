@@ -57,6 +57,7 @@ public class RegisterWindow extends JFrame implements ActionListener{
             try{
                 UserManager.addData(username.getText(), new String(password.getPassword()),null);
                 JOptionPane.showMessageDialog(this, "注册成功", "注册成功", JOptionPane.INFORMATION_MESSAGE);
+                dispose();
             }catch (Exception ec){
                 JOptionPane.showMessageDialog(this, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
             }

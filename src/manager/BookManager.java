@@ -64,6 +64,5 @@ public class BookManager {
         if(rs.getRow() == 0) throw new CoustemExecption("该图书编码不存在");
         addFreeISBN(ISBN);
         rs.deleteRow();
-        BorrowManager.delBookData(ISBN);
     }
 }

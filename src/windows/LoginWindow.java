@@ -57,6 +57,7 @@ public class LoginWindow extends JFrame implements ActionListener{
                 String cur = UserManager.getPassword(username.getText());
                 if(cur != null && cur.equals(new String(password.getPassword()))){
                     JOptionPane.showMessageDialog(this, "登录成功", "登录成功", JOptionPane.INFORMATION_MESSAGE);
+                    new UserWindow("图书管理系统", username.getText());
                     dispose();
                 }else{
                     JOptionPane.showMessageDialog(this, "用户名或密码错误", "错误", JOptionPane.WARNING_MESSAGE);
