@@ -81,8 +81,9 @@ delete from readerType
 delete from users
 
 insert into adminUsers values('admin', '123456')
+insert into reader values (1, 1, '1', 1, '1', '1', '1', getdate())
 insert into users values('1', '123456', null)
-
+insert into readerType values(1, 'sssss')
 select * from adminUsers
 select * from book
 select * from bookType

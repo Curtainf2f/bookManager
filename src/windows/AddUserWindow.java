@@ -1,6 +1,6 @@
 package windows;
 
-import userManager.UserManager;
+import manager.UserManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +27,7 @@ public class AddUserWindow extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setVisible(true);
         setTitle("添加用户");
+        setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     public void actionPerformed(ActionEvent e){

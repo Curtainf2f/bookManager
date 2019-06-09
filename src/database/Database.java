@@ -1,6 +1,8 @@
 package database;
 
 import java.sql.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class Database {
     private static Connection cn;
@@ -21,6 +23,9 @@ public class Database {
     public static int runSqlCommand(String cmd) throws Exception{
         PreparedStatement pstmt = cn.prepareStatement(cmd);
         return pstmt.executeUpdate();
+    }
+    public static java.sql.Date getDate() throws Exception{
+        return new java.sql.Date(new java.util.Date().getTime());
     }
     public static void delData(ResultSet old, Integer row) throws Exception{
         old.absolute(row);

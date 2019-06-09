@@ -1,7 +1,7 @@
 package windows;
 
-import readerTypeManager.ReaderTypeManager;
-import userManager.UserManager;
+import manager.ReaderTypeManager;
+import manager.UserManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,10 +61,12 @@ public class BoundReaderWindow extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setVisible(true);
         setTitle("绑定读者");
+        setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     public void actionPerformed(ActionEvent e){
         try{
+            if(UserManager.alreadyBoundReader(userName)) UserManager.unBoundReader(userName);
             UserManager.boundReader(userName, ReaderTypeManager.getReaderTypeId((String) type.getSelectedItem()), name.getText(), Integer.valueOf(age.getText()), sex.getText(), phone.getText(), dept.getText());
         }catch (Exception ec){
             JOptionPane.showMessageDialog(this, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);

@@ -1,9 +1,8 @@
-package readerManager;
+package manager;
 
 import customException.CoustemExecption;
 import dataProcess.DataProcess;
 import database.Database;
-import userManager.UserManager;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -23,7 +22,7 @@ public class ReaderManager {
         return 1;
     }
     public static void addFreeReaderId(Integer readerId) throws Exception{
-        Database.runSqlCommand("insert into freeReaderId values ("+ DataProcess.process(readerId) +")");
+        Database.runSqlCommand("insert into freeReader values ("+ DataProcess.process(readerId) +")");
     }
     public static ResultSet getData() throws Exception{
         return Database.getData("select * from reader");
@@ -36,6 +35,9 @@ public class ReaderManager {
         rs.last();
         if(rs.getRow() == 1) return rs.getObject(col);
         return null;
+    }
+    public static ResultSet getDataUseReaderTypeId(Integer readerTypeId) throws Exception{
+        return Database.getData("select * from reader where readerTypeId = " + DataProcess.process(readerTypeId));
     }
     public static void addData(Integer readerId, Integer readerTypeId, String readerName, Integer readerAge, String readerSex, String readerPhone, String readerDept) throws Exception{
         Database.runSqlCommand("insert into reader values ("+ DataProcess.process(readerId) + "," + DataProcess.process(readerTypeId) + "," + DataProcess.process(readerName) + "," + DataProcess.process(readerAge) + "," +  DataProcess.process(readerSex)  + "," +  DataProcess.process(readerPhone)  + "," + DataProcess.process(readerDept) + ",getdate())");
@@ -54,11 +56,13 @@ public class ReaderManager {
         rs.updateRow();
     }
     public static void delData(Integer readerId) throws Exception{
+        if (!BorrowManager.isAllReturn(readerId)) throw new CoustemExecption("该读者还有书未还，不可修改");
         ResultSet rs = getData(readerId);
         rs.last();
         if(rs.getRow() == 0) throw new CoustemExecption("该读者不存在");
-        rs.deleteRow();
         UserManager.delReaderId(readerId);
+        rs.deleteRow();
+        BorrowManager.delReaderData(readerId);
         addFreeReaderId(readerId);
     }
     public static Integer getTypeData(Integer readerTypeId) throws Exception{

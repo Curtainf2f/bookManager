@@ -1,5 +1,5 @@
 package windows;
-import userManager.UserManager;
+import manager.UserManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

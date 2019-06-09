@@ -1,9 +1,9 @@
-package readerTypeManager;
+package manager;
 
 import customException.CoustemExecption;
 import dataProcess.DataProcess;
 import database.Database;
-import readerManager.ReaderManager;
+import manager.ReaderManager;
 
 import java.sql.ResultSet;
 
@@ -63,7 +63,7 @@ public class ReaderTypeManager {
         rs.updateRow();
     }
     public static void delData(Integer readerTypeId) throws Exception{
-        if(ReaderManager.getTypeData(readerTypeId) > 0) throw new CoustemExecption("还存在有该类型的书");
+        if(ReaderManager.getTypeData(readerTypeId) > 0) throw new CoustemExecption("还存在有该类型的读者");
         ResultSet rs = getData(readerTypeId);
         rs.last();
         if(rs.getRow() == 0) throw new CoustemExecption("该读者类型不存在");

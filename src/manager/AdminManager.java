@@ -1,4 +1,4 @@
-package adminManager;
+package manager;
 
 import customException.CoustemExecption;
 import dataProcess.DataProcess;

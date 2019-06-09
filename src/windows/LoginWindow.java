@@ -1,6 +1,6 @@
 package windows;
-import userManager.UserManager;
-import adminManager.AdminManager;
+import manager.UserManager;
+import manager.AdminManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

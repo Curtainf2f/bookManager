@@ -1,9 +1,9 @@
-package userManager;
+package manager;
 
 import customException.CoustemExecption;
 import dataProcess.DataProcess;
 import database.Database;
-import readerManager.ReaderManager;
+import manager.ReaderManager;
 
 import java.sql.ResultSet;
 
@@ -41,6 +41,12 @@ public class UserManager {
     }
     public static Object getData(String userName, int col) throws Exception{
         ResultSet rs = Database.getData("select top 1 * from users where userName = " + DataProcess.process(userName));
+        rs.last();
+        if(rs.getRow() == 1) return rs.getObject(col);
+        return null;
+    }
+    public static Object getData(Integer readerId, int col) throws Exception{
+        ResultSet rs = Database.getData("select top 1 * from users where readerId = " + DataProcess.process(readerId));
         rs.last();
         if(rs.getRow() == 1) return rs.getObject(col);
         return null;
@@ -86,6 +92,15 @@ public class UserManager {
         if(rs.getRow() == 0) throw new CoustemExecption("该读者不存在");
         rs.updateObject(3, null);
         rs.updateRow();
+    }
+    public static boolean alreadyBoundReader(String userName)throws Exception{
+        return (Integer) getData(userName, 3) != null;
+    }
+    public static void unBoundReader(String userName) throws Exception{
+        Integer readerId = (Integer) getData(userName, 3);
+        if(readerId == null) throw new CoustemExecption("该用户没有绑定读者信息");
+        ReaderManager.delData(readerId);
+        setData(userName, 3, null);
     }
     public static void boundReader(String userName, Integer readerTypeId, String readerName, Integer readerAge, String readerSex, String readerPhone, String readerDept) throws Exception {
         setData(userName, 3, ReaderManager.addData(userName, readerTypeId, readerName, readerAge, readerSex, readerPhone, readerDept));
