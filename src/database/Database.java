@@ -1,5 +1,7 @@
 package database;
 
+import customException.CoustemExecption;
+
 import java.sql.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -19,6 +21,19 @@ public class Database {
     public static ResultSet getData(String cmd) throws Exception{
         Statement statement = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
         return statement.executeQuery(cmd);
+    }
+    public static ResultSet getData(String table, String colName, Integer subString) throws Exception{
+        ResultSet rs = getData("select * from " + table + " where " + colName + " = " + subString);
+        rs.last();
+        if (rs.getRow() == 0) throw new CoustemExecption("无结果");
+        return rs;
+    }
+    public static ResultSet searchData(String table, String colName, String subString) throws Exception{
+        subString.replace(' ', '%');
+        ResultSet rs = getData("select * from " + table + " where " + colName + " like '%" + subString + "%'");
+        rs.last();
+        if (rs.getRow() == 0) throw new CoustemExecption("无结果");
+        return rs;
     }
     public static int runSqlCommand(String cmd) throws Exception{
         PreparedStatement pstmt = cn.prepareStatement(cmd);

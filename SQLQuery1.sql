@@ -4,7 +4,7 @@ use bookManager
 
 create table readerType(
 	readerTypeId int not null primary key,
-	readerTypeName varchar(20)
+	readerTypeName varchar(20) not null
 )
 
 create table reader(
@@ -20,7 +20,7 @@ create table reader(
 
 create table bookType(
 	bookTypeId int not null primary key,
-	bookTypeName varchar(20)
+	bookTypeName varchar(20) not null
 )
 
 create table book(
@@ -31,7 +31,7 @@ create table book(
 	bookPublish varchar(30),
 	bookPublishDate datetime,
 	bookPublishTimes int,
-	bookPrice money
+	bookPrice money not null
 )
 
 create table users(
@@ -45,6 +45,7 @@ create table borrowBook(
 	ISBN varchar(10),
 	borrowDate datetime not null,
 	returnDate datetime,
+	primary key (readerId, ISBN)
 )
 
 create table adminUsers(
@@ -81,9 +82,7 @@ delete from readerType
 delete from users
 
 insert into adminUsers values('admin', '123456')
-insert into reader values (1, 1, '1', 1, '1', '1', '1', getdate())
-insert into users values('1', '123456', null)
-insert into readerType values(1, 'sssss')
+
 select * from adminUsers
 select * from book
 select * from bookType

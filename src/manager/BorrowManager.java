@@ -18,7 +18,10 @@ public class BorrowManager {
         return Database.getData("select * from borrowBook where ISBN = " + DataProcess.process(ISBN));
     }
     public static ResultSet getData(Integer readerId, Integer ISBN) throws Exception{
-        return Database.getData("select * from borrowBook where readerId = " + DataProcess.process(readerId) + " and ISBN = " + DataProcess.process(ISBN));
+        ResultSet rs = Database.getData("select * from borrowBook where readerId = " + DataProcess.process(readerId) + " and ISBN = " + DataProcess.process(ISBN));
+        rs.last();
+        if (rs.getRow() == 0) throw new Exception("无结果");
+        return rs;
     }
     public static boolean isBorrowed(Integer ISBN) throws Exception{
         ResultSet rs = getDataUseISBN(ISBN);

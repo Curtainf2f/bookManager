@@ -175,11 +175,17 @@ public class AdminWindow extends JFrame {
                 if(name == null) tmp[i][1] = "无法识别";
                 else tmp[i][1] = name;
             }
-            readerTable = new JTable(tmp, new String[]{"读者编号","读者类型","读者姓名"}){
+            readerTable = new JTable(tmp, new String[]{"读者编号","读者类型","读者姓名","年龄","性别","电话","院系","注册日期"}){
                 public boolean isCellEditable(int row, int column) {
                     return false;
                 }
             };
+            readerTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            int m = readerTable.getColumnModel().getColumnCount();
+            System.out.println(m);
+            for (int i = 0; i < m; i ++){
+                readerTable.getColumnModel().getColumn(i).setPreferredWidth(70);
+            }
             readerTable.addMouseListener(new MouseListener() {
                 public void mouseClicked(MouseEvent e){ }
                 public void mousePressed(MouseEvent e){
@@ -592,6 +598,44 @@ public class AdminWindow extends JFrame {
                 }
             }
         });
+        JMenu search = new JMenu("搜索");
+        JMenuItem searchUserName = new JMenuItem("搜索用户名");
+        JMenuItem searchreaderId = new JMenuItem("搜索读者编号");
+        tablerightClickShow.add(search);
+        search.add(searchUserName);
+        search.add(searchreaderId);
+        searchUserName.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    users = Database.searchData("users", "userName", JOptionPane.showInputDialog("搜索用户名"));
+                    usersTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        searchreaderId.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    users = Database.getData("users", "readerId",Integer.valueOf(JOptionPane.showInputDialog("搜索读者编号")));
+                    usersTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        JMenuItem showAll = new JMenuItem("显示所有");
+        tablerightClickShow.add(showAll);
+        showAll.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    users = UserManager.getData();
+                    usersTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
         tablerightClickShow.show(cp, x, y);
     }
     private void readerTypeTableRightClick(Component cp, int x, int y, int selectRow, int selectCol){
@@ -631,6 +675,44 @@ public class AdminWindow extends JFrame {
                 try{
                     readerType.absolute(selectRow);
                     ReaderTypeManager.delData(readerType.getInt(1));
+                    readerType = ReaderTypeManager.getData();
+                    readerTypeTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        JMenu search = new JMenu("搜索");
+        JMenuItem searchReaderTypeId = new JMenuItem("搜索读者类型编号");
+        JMenuItem searchReaderTypeName = new JMenuItem("搜索读者类型");
+        tablerightClickShow.add(search);
+        search.add(searchReaderTypeId);
+        search.add(searchReaderTypeName);
+        searchReaderTypeId.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    readerType = Database.getData("readerType", "readerTypeId",Integer.valueOf(JOptionPane.showInputDialog("搜索读者类型编号")));
+                    readerTypeTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        searchReaderTypeName.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    readerType = Database.searchData("readerType", "readerTypeName", JOptionPane.showInputDialog("搜索读者类型名称"));
+                    readerTypeTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        JMenuItem showAll = new JMenuItem("显示所有");
+        tablerightClickShow.add(showAll);
+        showAll.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
                     readerType = ReaderTypeManager.getData();
                     readerTypeTableReload();
                 }catch (Exception ec){
@@ -680,6 +762,92 @@ public class AdminWindow extends JFrame {
                 }
             }
         });
+        JMenu search = new JMenu("搜索");
+        JMenuItem searchReaderId = new JMenuItem("搜索读者编号");
+        JMenuItem searchReaderName = new JMenuItem("搜索读者姓名");
+        JMenuItem searchReaderAge = new JMenuItem("搜索读者年龄");
+        JMenuItem searchReaderSex = new JMenuItem("搜索读者性别");
+        JMenuItem searchReaderPhone = new JMenuItem("搜索读者电话");
+        JMenuItem searchReaderDept = new JMenuItem("搜索读者院系");
+        tablerightClickShow.add(search);
+        search.add(searchReaderId);
+        search.add(searchReaderName);
+        search.add(searchReaderAge);
+        search.add(searchReaderSex);
+        search.add(searchReaderPhone);
+        search.add(searchReaderDept);
+        searchReaderId.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    reader = Database.getData("reader", "readerId",Integer.valueOf(JOptionPane.showInputDialog("搜索读者编号")));
+                    readerTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        searchReaderName.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    reader = Database.searchData("reader", "readerName", JOptionPane.showInputDialog("搜索读者姓名"));
+                    readerTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        searchReaderAge.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    reader = Database.getData("reader", "readerAge", Integer.valueOf(JOptionPane.showInputDialog("搜索读者年龄")));
+                    readerTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        searchReaderSex.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    reader = Database.searchData("reader", "readerSex", JOptionPane.showInputDialog("搜索读者性别"));
+                    readerTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        searchReaderPhone.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    reader = Database.searchData("reader", "readerPhone", JOptionPane.showInputDialog("搜索读者电话"));
+                    readerTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        searchReaderDept.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    reader = Database.searchData("reader", "readerDept", JOptionPane.showInputDialog("搜索读者院系"));
+                    readerTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        JMenuItem showAll = new JMenuItem("显示所有");
+        tablerightClickShow.add(showAll);
+        showAll.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    reader = ReaderManager.getData();
+                    readerTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
         tablerightClickShow.show(cp, x, y);
     }
     private void bookTypeTableRightClick(Component cp, int x, int y, int selectRow, int selectCol){
@@ -719,6 +887,44 @@ public class AdminWindow extends JFrame {
                 try{
                     bookType.absolute(selectRow);
                     BookTypeManager.delData(bookType.getInt(1));
+                    bookType = BookTypeManager.getData();
+                    bookTypeTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        JMenu search = new JMenu("搜索");
+        JMenuItem searchBookTypeId = new JMenuItem("搜索书本类型编号");
+        JMenuItem searchBookTypeName = new JMenuItem("搜索书本类型名称");
+        tablerightClickShow.add(search);
+        search.add(searchBookTypeId);
+        search.add(searchBookTypeName);
+        searchBookTypeId.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    bookType = Database.getData("bookType", "bookTypeId", Integer.valueOf(JOptionPane.showInputDialog("搜索书本类型编号")));
+                    bookTypeTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        searchBookTypeName.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    bookType = Database.searchData("bookType", "bookTypeName", JOptionPane.showInputDialog("搜索书本类型名称"));
+                    bookTypeTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        JMenuItem showAll = new JMenuItem("显示所有");
+        tablerightClickShow.add(showAll);
+        showAll.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
                     bookType = BookTypeManager.getData();
                     bookTypeTableReload();
                 }catch (Exception ec){
@@ -776,6 +982,56 @@ public class AdminWindow extends JFrame {
                 }
             }
         });
+        JMenu search = new JMenu("搜索");
+        JMenuItem searchISBN = new JMenuItem("搜索书本编号");
+        JMenuItem searchBookName = new JMenuItem("搜索书本名称");
+        JMenuItem searchBookPublish = new JMenuItem("搜索出版社");
+        tablerightClickShow.add(search);
+        search.add(searchISBN);
+        search.add(searchBookName);
+        search.add(searchBookPublish);
+        searchISBN.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    book = Database.getData("book", "ISBN", Integer.valueOf(JOptionPane.showInputDialog("搜索书本编号")));
+                    bookTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        searchBookName.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    book = Database.searchData("book", "bookName", JOptionPane.showInputDialog("搜索书本名称"));
+                    bookTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        searchBookPublish.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    book = Database.searchData("book", "bookPublish", JOptionPane.showInputDialog("搜索出版社"));
+                    bookTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        JMenuItem showAll = new JMenuItem("显示所有");
+        tablerightClickShow.add(showAll);
+        showAll.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    book = BookManager.getData();
+                    bookTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
         tablerightClickShow.show(cp, x, y);
     }
     private void bookBorrowTableRightClick(Component cp, int x, int y, int selectRow, int selectCol){
@@ -790,6 +1046,44 @@ public class AdminWindow extends JFrame {
                     BorrowManager.delData(bookBorrow.getInt(1), bookBorrow.getInt(2));
                     bookBorrow = BorrowManager.getData();
                     bookTableReload();
+                    bookBorrowTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        JMenu search = new JMenu("搜索");
+        JMenuItem searchReaderId = new JMenuItem("搜索读者编号");
+        JMenuItem searchISBN = new JMenuItem("搜索书本编号");
+        tablerightClickShow.add(search);
+        search.add(searchISBN);
+        search.add(searchReaderId);
+        searchReaderId.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    bookBorrow = Database.getData("borrowBook", "readerId",Integer.valueOf(JOptionPane.showInputDialog("搜索读者编号")));
+                    bookBorrowTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        searchISBN.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    bookBorrow = Database.getData("borrowBook", "ISBN",Integer.valueOf(JOptionPane.showInputDialog("搜索书本编号")));
+                    bookBorrowTableReload();
+                }catch (Exception ec){
+                    JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        JMenuItem showAll = new JMenuItem("显示所有");
+        tablerightClickShow.add(showAll);
+        showAll.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    bookBorrow = BorrowManager.getData();
                     bookBorrowTableReload();
                 }catch (Exception ec){
                     JOptionPane.showMessageDialog(window, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
