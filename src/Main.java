@@ -1,3 +1,4 @@
+import windows.ChangePasswordWindow;
 import windows.LoginWindow;
 
 public class Main {

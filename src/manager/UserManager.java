@@ -33,19 +33,19 @@ public class UserManager {
         return Database.getData("select * from users");
     }
     public static ResultSet getData(Integer readerId) throws Exception{
-        return Database.getData("select top 1 * from users where readerId = " + DataProcess.process(readerId));
+        return Database.getData("select top 1 * from users where readerId = " + DataProcess.processData(readerId));
     }
     public static ResultSet getData(String userName) throws Exception{
-        return Database.getData("select top 1 * from users where userName = " + DataProcess.process(userName));
+        return Database.getData("select top 1 * from users where userName = " + DataProcess.processData(userName));
     }
     public static Object getData(String userName, int col) throws Exception{
-        ResultSet rs = Database.getData("select top 1 * from users where userName = " + DataProcess.process(userName));
+        ResultSet rs = Database.getData("select top 1 * from users where userName = " + DataProcess.processData(userName));
         rs.last();
         if(rs.getRow() == 1) return rs.getObject(col);
         return null;
     }
     public static Object getData(Integer readerId, int col) throws Exception{
-        ResultSet rs = Database.getData("select top 1 * from users where readerId = " + DataProcess.process(readerId));
+        ResultSet rs = Database.getData("select top 1 * from users where readerId = " + DataProcess.processData(readerId));
         rs.last();
         if(rs.getRow() == 1) return rs.getObject(col);
         return null;
@@ -55,7 +55,7 @@ public class UserManager {
             throw new CoustemExecption(checkUesrName(userName));
         if(checkPassword(password) != null)
             throw new CoustemExecption(checkPassword(password));
-        Database.runSqlCommand("insert into users values ("+ DataProcess.process(userName) + "," + DataProcess.process(password) + "," + DataProcess.process(readerId) +")");
+        Database.runSqlCommand("insert into users values ("+ DataProcess.processData(userName) + "," + DataProcess.processData(password) + "," + DataProcess.processData(readerId) +")");
     }
     public static void setData(String userName, int col, Object data) throws Exception{
         ResultSet rs = getData(userName);

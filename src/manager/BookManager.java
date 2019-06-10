@@ -22,30 +22,30 @@ public class BookManager {
         return 1;
     }
     public static void addFreeISBN(Integer ISBN) throws Exception{
-        Database.runSqlCommand("insert into freeBook values ("+ DataProcess.process(ISBN) +")");
+        Database.runSqlCommand("insert into freeBook values ("+ DataProcess.processData(ISBN) +")");
     }
     public static ResultSet getData() throws Exception{
         return Database.getData("select * from book");
     }
     public static ResultSet getData(Integer ISBN) throws Exception{
-        return Database.getData("select top 1 * from book where ISBN = " + DataProcess.process(ISBN));
+        return Database.getData("select top 1 * from book where ISBN = " + DataProcess.processData(ISBN));
     }
     public static ResultSet getTypeData(Integer bookTypeId) throws Exception{
-        return Database.getData("select top 1 * from book where bookTypeId = " + DataProcess.process(bookTypeId));
+        return Database.getData("select top 1 * from book where bookTypeId = " + DataProcess.processData(bookTypeId));
     }
     public static Integer haveTypeBook(Integer bookTypeId) throws Exception{
-        ResultSet rs = Database.getData("select top 1 * from book where bookTypeId = " + DataProcess.process(bookTypeId));
+        ResultSet rs = Database.getData("select top 1 * from book where bookTypeId = " + DataProcess.processData(bookTypeId));
         rs.last();
         return rs.getRow();
     }
     public static Object getData(Integer ISBN, int col) throws Exception{
-        ResultSet rs = Database.getData("select top 1 * from book where ISBN = " + DataProcess.process(ISBN));
+        ResultSet rs = Database.getData("select top 1 * from book where ISBN = " + DataProcess.processData(ISBN));
         rs.last();
         if(rs.getRow() == 1) return rs.getObject(col);
         return null;
     }
     public static void addData(Integer ISBN, Integer bookTypeId, String bookName, String bookAuthor, String bookPubilish, Date bookPublishDate, Integer bookPublishTimes, Integer bookPrice) throws Exception{
-        Database.runSqlCommand("insert into book values ("+ DataProcess.process(ISBN) + "," + DataProcess.process(bookTypeId) + "," + DataProcess.process(bookName) + "," + DataProcess.process(bookAuthor) + "," + DataProcess.process(bookPubilish) + "," + DataProcess.process(bookPublishDate) + "," + DataProcess.process(bookPublishTimes) + "," + DataProcess.process(bookPrice) +")");
+        Database.runSqlCommand("insert into book values ("+ DataProcess.processData(ISBN) + "," + DataProcess.processData(bookTypeId) + "," + DataProcess.processData(bookName) + "," + DataProcess.processData(bookAuthor) + "," + DataProcess.processData(bookPubilish) + "," + DataProcess.processData(bookPublishDate) + "," + DataProcess.processData(bookPublishTimes) + "," + DataProcess.processData(bookPrice) +")");
     }
     public static void addData(Integer bookTypeId, String bookName, String bookAuthor, String bookPubilish, Date bookPublishDate, Integer bookPublishTimes, Integer bookPrice) throws Exception{
         addData(getFreeISBN(), bookTypeId, bookName, bookAuthor, bookPubilish, bookPublishDate, bookPublishTimes, bookPrice);

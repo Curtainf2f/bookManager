@@ -21,31 +21,31 @@ public class ReaderTypeManager {
         return 1;
     }
     public static void addFreeReaderTypeId(Integer readerTypeId) throws Exception{
-        Database.runSqlCommand("insert into freeReaderType values ("+ DataProcess.process(readerTypeId) +")");
+        Database.runSqlCommand("insert into freeReaderType values ("+ DataProcess.processData(readerTypeId) +")");
     }
     public static ResultSet getData() throws Exception{
         return Database.getData("select * from readerType");
     }
     public static ResultSet getData(Integer readerTypeId) throws Exception{
-        return Database.getData("select top 1 * from readerType where readerTypeId = " + DataProcess.process(readerTypeId));
+        return Database.getData("select top 1 * from readerType where readerTypeId = " + DataProcess.processData(readerTypeId));
     }
     public static ResultSet getData(String readerTypeName) throws Exception{
-        return Database.getData("select * from readerType where readerTypeName = " + DataProcess.process(readerTypeName));
+        return Database.getData("select * from readerType where readerTypeName = " + DataProcess.processData(readerTypeName));
     }
     public static Object getData(String readerTypeName, int col) throws Exception{
-        ResultSet rs = Database.getData("select top 1 * from readerType where readerTypeName = " + DataProcess.process(readerTypeName));
+        ResultSet rs = Database.getData("select top 1 * from readerType where readerTypeName = " + DataProcess.processData(readerTypeName));
         rs.last();
         if(rs.getRow() == 1) return rs.getObject(col);
         return null;
     }
     public static Object getData(Integer readerTypeId, int col) throws Exception{
-        ResultSet rs = Database.getData("select top 1 * from readerType where readerTypeId = " + DataProcess.process(readerTypeId));
+        ResultSet rs = Database.getData("select top 1 * from readerType where readerTypeId = " + DataProcess.processData(readerTypeId));
         rs.last();
         if(rs.getRow() == 1) return rs.getObject(col);
         return null;
     }
     public static void addData(Integer readerTypeId, String readerTypeName) throws Exception{
-        Database.runSqlCommand("insert into readerType values (" + DataProcess.process(readerTypeId) + "," + DataProcess.process(readerTypeName) + ")");
+        Database.runSqlCommand("insert into readerType values (" + DataProcess.processData(readerTypeId) + "," + DataProcess.processData(readerTypeName) + ")");
     }
     public static void addData(String readerTypeName) throws Exception{
         Integer id = (Integer) getData(readerTypeName, 1);

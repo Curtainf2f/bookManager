@@ -30,10 +30,10 @@ public class AdminManager {
         return getData(userName, 1) != null;
     }
     public static ResultSet getData(String userName) throws Exception{
-        return Database.getData("select top 1 * from adminUsers where adminUserName = " + DataProcess.process(userName));
+        return Database.getData("select top 1 * from adminUsers where adminUserName = " + DataProcess.processData(userName));
     }
     public static Object getData(String userName, int col) throws Exception{
-        ResultSet rs = Database.getData("select top 1 * from adminUsers where adminUserName = " + DataProcess.process(userName));
+        ResultSet rs = Database.getData("select top 1 * from adminUsers where adminUserName = " + DataProcess.processData(userName));
         rs.last();
         if(rs.getRow() == 1) return rs.getObject(col);
         return null;
@@ -43,7 +43,7 @@ public class AdminManager {
             throw new CoustemExecption(checkUesrName(userName));
         if(checkPassword(password) != null)
             throw new CoustemExecption(checkPassword(password));
-        Database.runSqlCommand("insert into adminUsers values ("+ DataProcess.process(userName) + "," + DataProcess.process(password) + ")");
+        Database.runSqlCommand("insert into adminUsers values ("+ DataProcess.processData(userName) + "," + DataProcess.processData(password) + ")");
     }
     public static void setData(String userName, int col, Object data) throws Exception{
         ResultSet rs = getData(userName);

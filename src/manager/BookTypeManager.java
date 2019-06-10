@@ -21,28 +21,28 @@ public class BookTypeManager {
         return 1;
     }
     public static void addFreeBookTypeId(Integer bookTypeId) throws Exception{
-        Database.runSqlCommand("insert into freeBookType values ("+ DataProcess.process(bookTypeId) +")");
+        Database.runSqlCommand("insert into freeBookType values ("+ DataProcess.processData(bookTypeId) +")");
     }
     public static ResultSet getData() throws Exception{
         return Database.getData("select * from bookType");
     }
     public static ResultSet getData(Integer bookTypeId) throws Exception{
-        return Database.getData("select top 1 * from bookType where bookTypeId = " + DataProcess.process(bookTypeId));
+        return Database.getData("select top 1 * from bookType where bookTypeId = " + DataProcess.processData(bookTypeId));
     }
     public static Object getData(String bookTypeName, int col) throws Exception{
-        ResultSet rs = Database.getData("select top 1 * from bookType where bookTypeName = " + DataProcess.process(bookTypeName));
+        ResultSet rs = Database.getData("select top 1 * from bookType where bookTypeName = " + DataProcess.processData(bookTypeName));
         rs.last();
         if(rs.getRow() == 1) return rs.getObject(col);
         return null;
     }
     public static Object getData(Integer bookTypeId, int col) throws Exception{
-        ResultSet rs = Database.getData("select top 1 * from bookType where bookTypeId = " + DataProcess.process(bookTypeId));
+        ResultSet rs = Database.getData("select top 1 * from bookType where bookTypeId = " + DataProcess.processData(bookTypeId));
         rs.last();
         if(rs.getRow() == 1) return rs.getObject(col);
         return null;
     }
     public static void addData(Integer bookTypeId, String bookTypeName) throws Exception{
-        Database.runSqlCommand("insert into bookType values ("+ DataProcess.process(bookTypeId) + "," + DataProcess.process(bookTypeName) +")");
+        Database.runSqlCommand("insert into bookType values ("+ DataProcess.processData(bookTypeId) + "," + DataProcess.processData(bookTypeName) +")");
     }
     public static void addData(String bookTypeName) throws Exception{
         addData(getFreeBookTypeId(), bookTypeName);

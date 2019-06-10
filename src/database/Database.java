@@ -29,7 +29,7 @@ public class Database {
         return rs;
     }
     public static ResultSet searchData(String table, String colName, String subString) throws Exception{
-        subString.replace(' ', '%');
+        subString = subString.replace(' ', '%');
         ResultSet rs = getData("select * from " + table + " where " + colName + " like '%" + subString + "%'");
         rs.last();
         if (rs.getRow() == 0) throw new CoustemExecption("无结果");

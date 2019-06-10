@@ -1,4 +1,5 @@
 package windows;
+import customException.CoustemExecption;
 import manager.UserManager;
 import javax.swing.*;
 import java.awt.*;
@@ -55,6 +56,8 @@ public class RegisterWindow extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == reg || e.getSource() == username || e.getSource() == password || e.getSource() == confirmPassword){
             try{
+                if (!(new String(password.getPassword()).equals(new String(confirmPassword.getPassword()))))
+                    throw new CoustemExecption("两次密码不匹配");
                 UserManager.addData(username.getText(), new String(password.getPassword()),null);
                 JOptionPane.showMessageDialog(this, "注册成功", "注册成功", JOptionPane.INFORMATION_MESSAGE);
                 dispose();

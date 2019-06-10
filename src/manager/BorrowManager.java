@@ -12,13 +12,13 @@ public class BorrowManager {
         return Database.getData("select * from borrowBook");
     }
     public static ResultSet getDataUseReaderId(Integer readerId) throws Exception{
-        return Database.getData("select * from borrowBook where readerId = " + DataProcess.process(readerId));
+        return Database.getData("select * from borrowBook where readerId = " + DataProcess.processData(readerId));
     }
     public static ResultSet getDataUseISBN(Integer ISBN) throws Exception{
-        return Database.getData("select * from borrowBook where ISBN = " + DataProcess.process(ISBN));
+        return Database.getData("select * from borrowBook where ISBN = " + DataProcess.processData(ISBN));
     }
     public static ResultSet getData(Integer readerId, Integer ISBN) throws Exception{
-        ResultSet rs = Database.getData("select * from borrowBook where readerId = " + DataProcess.process(readerId) + " and ISBN = " + DataProcess.process(ISBN));
+        ResultSet rs = Database.getData("select * from borrowBook where readerId = " + DataProcess.processData(readerId) + " and ISBN = " + DataProcess.processData(ISBN));
         rs.last();
         if (rs.getRow() == 0) throw new Exception("无结果");
         return rs;
@@ -35,7 +35,7 @@ public class BorrowManager {
     }
     public static void addData(Integer readerId, Integer ISBN, Date returnDate) throws Exception{
         if (isBorrowed(ISBN)) throw new CoustemExecption("该书已被借阅");
-        Database.runSqlCommand("insert into borrowBook values ("+ DataProcess.process(readerId) + "," + DataProcess.process(ISBN) + ",getdate(),"+ DataProcess.process(returnDate) +")");
+        Database.runSqlCommand("insert into borrowBook values ("+ DataProcess.processData(readerId) + "," + DataProcess.processData(ISBN) + ",getdate(),"+ DataProcess.processData(returnDate) +")");
     }
     public static void delData(Integer readerId, Integer ISBN) throws Exception{
         ResultSet rs = getData(readerId, ISBN);
@@ -44,9 +44,9 @@ public class BorrowManager {
         rs.deleteRow();
     }
     public static void delBookData(Integer readerId) throws Exception{
-        Database.runSqlCommand("delete from borrowBook where readerId = " + DataProcess.process(readerId));
+        Database.runSqlCommand("delete from borrowBook where readerId = " + DataProcess.processData(readerId));
     }
     public static void delReaderData(Integer readerId) throws Exception{
-        Database.runSqlCommand("delete from borrowBook where readerId = " + DataProcess.process(readerId));
+        Database.runSqlCommand("delete from borrowBook where readerId = " + DataProcess.processData(readerId));
     }
 }

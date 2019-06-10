@@ -36,7 +36,6 @@ public class AddUserWindow extends JFrame implements ActionListener {
         }catch (Exception ec){
             JOptionPane.showMessageDialog(this, ec.getMessage(), "错误", JOptionPane.WARNING_MESSAGE);
         }
-
         dispose();
     }
 }
